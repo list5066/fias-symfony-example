@@ -35,6 +35,8 @@ services:
                 HOST_GROUP_ID: ${DOCKER_GROUP_ID}
         ports:
             - 8080:80
+        volumes:
+            - ${DOCKER_APP_PATH}:/var/www:cached
 
 volumes:
     fias_database:
