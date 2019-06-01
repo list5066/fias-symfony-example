@@ -1,3 +1,11 @@
+services:
+    # заменяем сервис для записи на сервис, который использует bulk insert
+    liquetsoft_fias.storage.service:
+        class: Liquetsoft\Fias\Symfony\LiquetsoftFiasBundle\Storage\BulkInsertDoctrineStorage
+        arguments:
+            - '@doctrine'
+            - '%liquetsoft_fias.insert_batch_count%'
+
 liquetsoft_fias:
     # сущность, которая хранит версии ФИАС
     version_manager_entity: App\Entity\FiasVersion
