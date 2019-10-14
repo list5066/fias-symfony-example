@@ -6,7 +6,7 @@
 Краткий список команд для установки
 -----------------------------------
 
-* `git clone git@github.com:liquetsoft/fias-example.git fias`
+* `git clone git@github.com:liquetsoft/fias-symfony-example.git fias`
 
 * `cd fias/docker`
 
