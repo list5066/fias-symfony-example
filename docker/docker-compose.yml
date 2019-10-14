@@ -3,13 +3,16 @@ version: '3.7'
 services:
 
     postgres:
-        container_name: fias-db
+        container_name: fias-symfony-db
+        image: fias-symfony-db
+        networks:
+            - fias_symfony_network
         build:
             context: local/postgres
         ports:
             - 5432:5432
         volumes:
-            - fias_database:/var/lib/postgresql/data
+            - fias_symfony_database:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: ${DOCKER_DB_USER}
             POSTGRES_PASSWORD: ${DOCKER_DB_PASSWORD}
@@ -17,26 +20,32 @@ services:
             PGDATA: /var/lib/postgresql/data/pgdata
 
     php:
-        container_name: fias-php
+        container_name: fias-symfony-php
+        image: fias-symfony-php
+        networks:
+            - fias_symfony_network
         build:
             context: local/php
             args:
                 HOST_USER_ID: ${DOCKER_USER_ID}
                 HOST_GROUP_ID: ${DOCKER_GROUP_ID}
         volumes:
-            - ${DOCKER_APP_PATH}:/var/www:cached
+            - ${DOCKER_APP_PATH}:/var/app:cached
 
     nginx:
-        container_name: fias-nginx
+        container_name: fias-symfony-nginx
+        image: fias-symfony-nginx
+        networks:
+            - fias_symfony_network
         build:
             context: local/nginx
-            args:
-                HOST_USER_ID: ${DOCKER_USER_ID}
-                HOST_GROUP_ID: ${DOCKER_GROUP_ID}
         ports:
             - 8080:80
         volumes:
-            - ${DOCKER_APP_PATH}:/var/www:cached
+            - ${DOCKER_APP_PATH}:/var/app:cached
 
 volumes:
-    fias_database:
+    fias_symfony_database:
+
+networks:
+    fias_symfony_network:

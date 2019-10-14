@@ -6,17 +6,17 @@
 Краткий список команд для установки
 -----------------------------------
 
-* `git clone git@github.com:liquetsoft/fias-symfony-example.git fias`
+* `git clone git@github.com:liquetsoft/fias-symfony-example.git fias`,
 
-* `cd fias/docker`
+* `cd fias`,
 
-* `cp .env.dist .env`
+* `cp docker/.env.dist docker/.env`,
 
-* `docker-compose up -d --build`
+* `make build`,
 
-* `docker-compose exec -u $UID php composer install`
+* `make up`,
 
-* `docker-compose exec -u $UID php bin/console doctrine:migrations:migrate`
+* для установки `make install`,
 
 * открыть в браузере [http://localhost:8080/api](http://localhost:8080/api).
 
@@ -31,53 +31,16 @@
 
 2. Установить последнюю стабильную версию [docker compose](https://docs.docker.com/compose/install/), если она еще не установлена.
 
-3. Клонировать репозиторий с проектом.
+3. Установить последнюю стабильную версию `make`, если она еще не установлена.
 
-4. Создать файл `.env` в папке `docker` в локальном склонированном репозитории, скопировать в него содержимое файла `.env.dist`, при необходимости заменить параметры:
+4. Клонировать репозиторий с проектом.
+
+5. Создать файл `.env` в папке `docker` в локальном склонированном репозитории, скопировать в него содержимое файла `.env.dist`, при необходимости заменить параметры:
 
     1. **важно для linux** чтобы `docker` не создавал все новый файлы от имени `root`, нужно обязательно изменить параметры `DOCKER_USER_ID` и `DOCKER_GROUP_ID` на идентификатор вашего пользователя и идентификатор его группы соответственно.
 
-5. Перейти в консоли в папку `docker` в локальном склонированном репозитории и выполнить команду `docker-compose up -d --build`.
+6. Выполнить команду `make build` в корне репозитория для сборки проекта.
 
-6. Установить зависимости `composer`:
+7. Выполнить команду `make up` для запуска контейнеров.
 
-    1. перейти в консоли в папку `docker` в локальном склонированном репозитории и выполнить команду `docker-compose exec php composer install`,
-
-    2. **важно для linux** каждая команда `docker-compose exec` должна сопровождаться указанием пользователя, например, `docker-compose exec -u $UID php composer install`.
-
-7. Применить миграции:
-
-    1. перейти в консоли в папку `docker` в локальном склонированном репозитории и выполнить команду `docker-compose exec php bin/console doctrine:migrations:migrate`,
-
-    2. **важно для linux** каждая команда `docker-compose exec` должна сопровождаться указанием пользователя, например, `docker-compose exec -u $UID php bin/console doctrine:migrations:migrate`.
-
-8. Загрузить фикстуры:
-
-    1. перейти в консоли в папку `docker` в локальном склонированном репозитории и выполнить команду `docker-compose exec php bin/console doctrine:fixtures:load`,
-
-    2. **важно для linux** каждая команда `docker-compose exec` должна сопровождаться указанием пользователя, например, `docker-compose exec -u $UID php bin/console doctrine:fixtures:load`.
-
-9. После запуска окружения и установки проект будет доступен по ссылке [http://localhost:8080/api](http://localhost:8080/api).
-
-10. Для подключения к базе данных следует использовать:
-
-    1. `host` - `postgres`,
-
-    2. `database` - `symfony`,
-
-    3. `login` - `symfony`,
-
-    4. `password` - `symfonypass`.
-
-
-11. Операции с `composer` следует выполнять через `docker-compose exec`:
-
-    1. например, для установки библиотек следует использовать `docker-compose exec php composer install`,
-
-    2. **важно для linux** каждая команда `docker-compose exec` должна сопровождаться указанием пользователя, например, `docker-compose exec -u $UID php composer install`.
-
-12. Все операции с файлом `bin/console` следует выполнять через `docker-compose exec`:
-
-    1. например, для применения миграций `docker-compose exec php bin/console doctrine:migrations:migrate`,
-
-    2. **важно для linux** каждая команда `docker-compose exec` должна сопровождаться указанием пользователя, например, `docker-compose exec -u $UID php bin/console doctrine:migrations:migrate`.
+8. Выполнить команду `make install` для установки ФИАС.

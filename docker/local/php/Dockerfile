@@ -1,26 +1,24 @@
 FROM php:7.2-fpm-alpine
 
-
+# alpine components
 RUN set -xe && apk update && apk add --no-cache \
+    shadow \
     libzip \
     bash \
     curl \
+    icu-dev \
     libmcrypt-dev \
     libxml2-dev \
     postgresql-dev \
     pcre-dev \
-    icu-dev \
     git \
     autoconf \
     g++ \
-    make \
-    shadow \
-    libintl \
-    make \
-    autoconf
+    make
 
 
-RUN docker-php-ext-install intl opcache pdo_pgsql zip pcntl sockets exif soap \
+# php pecl components
+RUN docker-php-ext-install pdo_pgsql pdo_mysql zip pcntl sockets soap intl opcache \
     && docker-php-source extract \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
@@ -30,7 +28,9 @@ RUN docker-php-ext-install intl opcache pdo_pgsql zip pcntl sockets exif soap \
 
 
 # composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && mkdir -p /.composer \
+    && chmod -Rf 777 /.composer
 
 
 # change uid for nginx user to avoid problems with host permissions
@@ -38,11 +38,12 @@ ARG HOST_USER_ID
 ARG HOST_GROUP_ID
 RUN if [ ! -z "$HOST_USER_ID" ] ; then usermod -u $HOST_USER_ID www-data ; fi \
     && if [ ! -z "$HOST_GROUP_ID" ] ; then groupmod -g $HOST_GROUP_ID www-data ; fi \
-    && mkdir /var/session && chown www-data:www-data /var/session
+    && mkdir /var/session \
+    && chown -Rf www-data:www-data /var/session
 
 
 # symfony pool config
 COPY symfony.conf /usr/local/etc/php-fpm.d/symfony.conf
 
 
-WORKDIR /var/www
+WORKDIR /var/app
