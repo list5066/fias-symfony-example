@@ -14,11 +14,7 @@ user_id := $(shell id -u)
 include docker/.env
 export $(shell sed 's/=.*//' docker/.env)
 
-.PHONY : help pull build push login test clean \
-         app-pull app app-push\
-         sources-pull sources sources-push\
-         nginx-pull nginx nginx-push\
-         up down restart shell install
+.PHONY : build up down shell install
 .DEFAULT_GOAL := build
 
 # --- [ Development tasks ] -------------------------------------------------------------------------------------------

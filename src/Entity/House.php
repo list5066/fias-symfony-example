@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * Дома.
- *
  * @ORM\Entity(repositoryClass="App\Repository\HouseRepository")
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
  */
 class House extends \Liquetsoft\Fias\Symfony\LiquetsoftFiasBundle\Entity\House
 {

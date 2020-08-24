@@ -31,6 +31,7 @@ services:
                 HOST_GROUP_ID: ${DOCKER_GROUP_ID}
         volumes:
             - ${DOCKER_APP_PATH}:/var/app:cached
+            - ${DOCKER_APP_PATH}/../fias-laravel-example/storage/saved_fias:/fias:cached
 
     nginx:
         container_name: fias-symfony-nginx

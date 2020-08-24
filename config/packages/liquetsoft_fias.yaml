@@ -1,14 +1,8 @@
-services:
-    # заменяем сервис для записи на сервис, который использует bulk insert
-    liquetsoft_fias.storage.service:
-        class: Liquetsoft\Fias\Symfony\LiquetsoftFiasBundle\Storage\BulkInsertDoctrineStorage
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '%liquetsoft_fias.insert_batch_count%'
-
 liquetsoft_fias:
+
     # сущность, которая хранит версии ФИАС
     version_manager_entity: App\Entity\FiasVersion
+
     # массив, в котором указывается какие сущности в какой объект преобразовывать
     entity_bindings:
         ActualStatus: App\Entity\ActualStatus
@@ -19,8 +13,6 @@ liquetsoft_fias:
         EstateStatus: App\Entity\EstateStatus
         FlatType: App\Entity\FlatType
         House: App\Entity\House
-        HouseStateStatus: App\Entity\HouseStateStatus
-        IntervalStatus: App\Entity\IntervalStatus
         NormativeDocument: App\Entity\NormativeDocument
         NormativeDocumentType: App\Entity\NormativeDocumentType
         OperationStatus: App\Entity\OperationStatus
